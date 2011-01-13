@@ -19,6 +19,7 @@
 	<modules>
 		<module>methodvalidation-parent</module>	
 		<module>methodvalidation-cdi</module>
+		<module>methodvalidation-guice</module>		
 	</modules>
 
 </project>
