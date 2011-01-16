@@ -13,13 +13,14 @@
 	<name>HV Method Validation Aggregator</name>
 
 	<description>
-		A build aggregator ...
+		Build aggregator for all method validation projects
 	</description>
 	
 	<modules>
 		<module>methodvalidation-parent</module>	
 		<module>methodvalidation-cdi</module>
-		<module>methodvalidation-guice</module>		
+		<module>methodvalidation-guice</module>
+		<module>methodvalidation-dynamicproxy</module>		
 	</modules>
 
 </project>
