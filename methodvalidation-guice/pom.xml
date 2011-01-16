@@ -18,7 +18,6 @@
 	</description>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>com.google.code.guice</groupId>
 			<artifactId>guice</artifactId>
@@ -28,21 +27,6 @@
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>
 			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-jdk14</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>
