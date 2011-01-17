@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -50,13 +51,19 @@ public class MovieRepository {
 				new GregorianCalendar(1995, 7, 16).getTime());
 
 		sampleMovies.put(movie.getId(), movie);
+
+		movie = new Movie(
+				2,
+				"The Road",
+				160,
+				"John Hillcoat",
+				null);
+
+		sampleMovies.put(movie.getId(), movie);
 	}
 
-	public Set<Movie> findMoviesByDirector(
-		@NotNull @Size(min = 3) String director) {
-
+	public @Valid Set<Movie> findMoviesByDirector(@NotNull @Size(min = 3) String director) {
 		Set<Movie> theValue = new HashSet<Movie>();
-
 		for (Movie oneMovie : sampleMovies.values()) {
 			if (oneMovie.getDirector().equals(director)) {
 				theValue.add(oneMovie);

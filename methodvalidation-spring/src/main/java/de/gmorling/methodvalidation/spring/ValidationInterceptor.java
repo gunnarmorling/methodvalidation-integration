@@ -38,21 +38,30 @@ public class ValidationInterceptor {
 	@Autowired
 	private ValidatorFactory validatorFactory;
 
-	//Match any public methods
+	//Match any public methods in a class annotated with @AutoValidating
 	@Around("execution(public * *(..)) && @within(de.gmorling.methodvalidation.spring.AutoValidating)")
 	public Object validateMethodParameters(ProceedingJoinPoint pjp) throws Throwable {
+		Object result;
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		MethodValidator validator = validatorFactory.getValidator().unwrap( MethodValidator.class );
 
-		Set<MethodConstraintViolation<Object>> violations = validator.validateParameters(
+		Set<MethodConstraintViolation<Object>> parametersViolations = validator.validateParameters(
 				pjp.getTarget(), signature.getMethod(), pjp.getArgs()
 		);
-
-		if ( !violations.isEmpty() ) {
-			throw new MethodConstraintViolationException( violations );
+		if ( !parametersViolations.isEmpty() ) {
+			throw new MethodConstraintViolationException( parametersViolations );
 		}
 
-		return pjp.proceed();
+		result =  pjp.proceed(); //Execute the method
+
+		Set<MethodConstraintViolation<Object>> returnValueViolations = validator.validateReturnValue(
+				pjp.getTarget(), signature.getMethod(), result
+		);
+		if ( !returnValueViolations.isEmpty() ) {
+			throw new MethodConstraintViolationException( returnValueViolations );
+		}
+
+		return result;
 	}
 
 }

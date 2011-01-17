@@ -91,5 +91,31 @@ public class SpringMethodValidationTest {
 
 	}
 
+	@Test
+	public void methodCallFailsDueToIllegalReturnValue() {
+
+		try {
+			movieRepository.findMoviesByDirector( "John Hillcoat" );
+			fail(
+					"Expected "
+							+ MethodConstraintViolationException.class.getSimpleName()
+							+ " wasn't thrown."
+			);
+		}
+		catch ( MethodConstraintViolationException e ) {
+			Set<MethodConstraintViolation<?>> violations = e
+					.getConstraintViolations();
+			assertEquals( 1, violations.size() );
+			MethodConstraintViolation<?> constraintViolation = violations
+					.iterator().next();
+			assertEquals( nullValidationMessage, constraintViolation.getMessage() );
+			assertEquals(
+					"MovieRepository#findMoviesByDirector()[].releaseDate",
+					constraintViolation.getPropertyPath().toString()
+			);
+		}
+
+	}
+
 
 }

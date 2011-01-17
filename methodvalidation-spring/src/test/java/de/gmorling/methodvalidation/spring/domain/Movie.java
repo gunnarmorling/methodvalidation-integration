@@ -16,6 +16,7 @@
 package de.gmorling.methodvalidation.spring.domain;
 
 import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 /**
  * An exemplary model class representing a movie.
@@ -26,13 +27,14 @@ import java.util.Date;
 public class Movie {
 
 	private final long id;
-	
+
 	private final String title;
 	
 	private final int runTime;
 	
 	private final String director;
-	
+
+	@NotNull
 	private final Date releaseDate;
 
 	public Movie(long id, String title, int runTime, String director,
