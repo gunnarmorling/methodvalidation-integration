@@ -4,3 +4,7 @@ target
 .project
 .settings
 test-output
+.DS_Store/
+*.iml
+*.ipr
+*.iws
