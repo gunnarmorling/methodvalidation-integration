@@ -17,6 +17,10 @@
 		Integration layer between Hibernate Validator's method validation feature and Spring.
   </description>
 
+  <properties>
+      <spring.framework.version>3.0.5.RELEASE</spring.framework.version>
+  </properties>
+
   <dependencies>
       <!--
             Spring framework
@@ -24,7 +28,7 @@
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-beans</artifactId>
-          <version>3.0.5.RELEASE</version>
+          <version>${spring.framework.version}</version>
       </dependency>
       <dependency>
           <groupId>org.aspectj</groupId>
@@ -50,13 +54,13 @@
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-test</artifactId>
-          <version>3.0.5.RELEASE</version>
+          <version>${spring.framework.version}</version>
           <scope>test</scope>
       </dependency>
        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-context</artifactId>
-          <version>3.0.5.RELEASE</version>
+          <version>${spring.framework.version}</version>
           <scope>test</scope>
       </dependency>
   </dependencies>
