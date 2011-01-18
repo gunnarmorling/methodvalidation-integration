@@ -15,17 +15,9 @@
  */
 package de.gmorling.methodvalidation.guice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import java.util.ResourceBundle;
 import java.util.Set;
-
 import javax.validation.ValidatorFactory;
-
-import org.hibernate.validator.MethodConstraintViolation;
-import org.hibernate.validator.MethodConstraintViolationException;
-import org.junit.Before;
-import org.junit.Test;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -33,21 +25,33 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
-
-import de.gmorling.methodvalidation.guice.AutoValidating;
-import de.gmorling.methodvalidation.guice.ValidationInterceptor;
-import de.gmorling.methodvalidation.guice.ValidatorFactoryProvider;
 import de.gmorling.methodvalidation.guice.domain.Movie;
 import de.gmorling.methodvalidation.guice.service.MovieRepository;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import org.hibernate.validator.MethodConstraintViolation;
+import org.hibernate.validator.MethodConstraintViolationException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class GuiceMethodValidationTest {
+
+	private static String notNullMessage;
 
 	@Inject
 	private MovieRepository movieRepository;
 
+	@BeforeClass
+	public static void setUpClass() {
+		ResourceBundle bundle = ResourceBundle.getBundle("org.hibernate.validator.ValidationMessages");
+		notNullMessage = bundle.getString("javax.validation.constraints.NotNull.message");
+	}
+
 	@Before
 	public void setup() {
-
 		Injector injector = Guice.createInjector(new AbstractModule() {
 
 			@Override
@@ -96,7 +100,7 @@ public class GuiceMethodValidationTest {
 			assertEquals(1, violations.size());
 			MethodConstraintViolation<?> constraintViolation = violations
 				.iterator().next();
-			assertEquals("may not be null", constraintViolation.getMessage());
+			assertEquals(notNullMessage, constraintViolation.getMessage());
 			assertEquals("MovieRepository#findMoviesByDirector(arg0)",
 				constraintViolation.getPropertyPath().toString());
 		}

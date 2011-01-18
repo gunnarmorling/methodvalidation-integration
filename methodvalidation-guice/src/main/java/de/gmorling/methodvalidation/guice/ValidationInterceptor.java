@@ -47,7 +47,18 @@ public class ValidationInterceptor implements MethodInterceptor {
 			throw new MethodConstraintViolationException(violations);
 		}
 
-		return invocation.proceed();
+		Object result = invocation.proceed();
+
+		violations = validator.validateReturnValue(
+						invocation.getThis(),
+						invocation.getMethod(),
+						invocation.getArguments());
+
+		if (!violations.isEmpty()) {
+			throw new MethodConstraintViolationException(violations);
+		}
+
+		return result;
 	}
 
 }

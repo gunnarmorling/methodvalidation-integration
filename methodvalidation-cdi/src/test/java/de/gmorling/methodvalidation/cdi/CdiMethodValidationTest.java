@@ -18,6 +18,7 @@ package de.gmorling.methodvalidation.cdi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -29,6 +30,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -37,6 +39,8 @@ import de.gmorling.methodvalidation.cdi.service.MovieRepository;
 
 @RunWith(Arquillian.class)
 public class CdiMethodValidationTest {
+
+	private static String notNullMessage;
 
 	@Inject
 	private MovieRepository movieRepository;
@@ -49,6 +53,12 @@ public class CdiMethodValidationTest {
 			.addPackage(MovieRepository.class.getPackage())
 			.addPackage(ValidationInterceptor.class.getPackage())
 			.addPackage(Movie.class.getPackage());
+	}
+
+	@BeforeClass
+	public static void setUpClass() {
+		ResourceBundle bundle = ResourceBundle.getBundle("org.hibernate.validator.ValidationMessages");
+		notNullMessage = bundle.getString("javax.validation.constraints.NotNull.message");
 	}
 
 	@Test
@@ -78,7 +88,7 @@ public class CdiMethodValidationTest {
 			assertEquals(1, violations.size());
 			MethodConstraintViolation<?> constraintViolation = violations
 				.iterator().next();
-			assertEquals("may not be null", constraintViolation.getMessage());
+			assertEquals(notNullMessage, constraintViolation.getMessage());
 		}
 
 	}
