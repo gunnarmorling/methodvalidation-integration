@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Proxy;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.validation.Validation;
@@ -37,12 +38,17 @@ import de.gmorling.methodvalidation.dynamicproxy.service.MovieRepositoryImpl;
 
 public class DynamicProxyMethodValidationTest {
 
+	private static String notNullMessage;
+
 	private static MethodValidator validator;
 
 	private MovieRepository movieRepository;
 
 	@BeforeClass
 	public static void setUpMethodValidator() {
+		ResourceBundle bundle = ResourceBundle.getBundle("org.hibernate.validator.ValidationMessages");
+		notNullMessage = bundle.getString("javax.validation.constraints.NotNull.message");
+
 		validator = Validation.byProvider(HibernateValidator.class)
 			.configure()
 			.buildValidatorFactory()
@@ -99,7 +105,7 @@ public class DynamicProxyMethodValidationTest {
 			assertEquals(1, violations.size());
 			MethodConstraintViolation<?> constraintViolation = violations
 				.iterator().next();
-			assertEquals("may not be null", constraintViolation.getMessage());
+			assertEquals(notNullMessage, constraintViolation.getMessage());
 			assertEquals("MovieRepository#findMoviesByDirector(arg0)",
 				constraintViolation.getPropertyPath().toString());
 		}
