@@ -50,7 +50,7 @@ public class ValidationInterceptor {
 
 		Object result = ctx.proceed();
 
-		violations = validator.validateReturnValue(ctx.getTarget(), ctx.getMethod(), ctx.getParameters());
+		violations = validator.validateReturnValue(ctx.getTarget(), ctx.getMethod(), result);
 
 		if (!violations.isEmpty()) {
 			throw new MethodConstraintViolationException(violations);
