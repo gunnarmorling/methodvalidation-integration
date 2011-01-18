@@ -21,17 +21,10 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
 
-
      <!-- AOP configuration -->
      <aop:aspectj-autoproxy />
      <bean class="de.gmorling.methodvalidation.spring.ValidationInterceptor" />
 
-     <!-- Validator factory provider -->
-     <bean name="validatorFactoryProvider" class="javax.validation.Validation"
-           factory-method="buildDefaultValidatorFactory" />
-
-
-
-
+     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 </beans>

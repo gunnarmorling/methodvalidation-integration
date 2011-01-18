@@ -18,7 +18,7 @@ package de.gmorling.methodvalidation.spring;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.validation.ValidatorFactory;
+import javax.validation.Validator;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -35,16 +35,16 @@ import org.hibernate.validator.MethodValidator;
 public class ValidationInterceptor {
 
 	@Inject
-	private ValidatorFactory validatorFactory;
+	private Validator validator;
 
 	//Match any public methods in a class annotated with @AutoValidating
 	@Around("execution(public * *(..)) && @within(de.gmorling.methodvalidation.spring.AutoValidating)")
 	public Object validateMethodParameters(ProceedingJoinPoint pjp) throws Throwable {
 		Object result;
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
-		MethodValidator validator = validatorFactory.getValidator().unwrap( MethodValidator.class );
+		MethodValidator methodValidator = validator.unwrap( MethodValidator.class );
 
-		Set<MethodConstraintViolation<Object>> parametersViolations = validator.validateParameters(
+		Set<MethodConstraintViolation<Object>> parametersViolations = methodValidator.validateParameters(
 				pjp.getTarget(), signature.getMethod(), pjp.getArgs()
 		);
 		if ( !parametersViolations.isEmpty() ) {
@@ -53,7 +53,7 @@ public class ValidationInterceptor {
 
 		result =  pjp.proceed(); //Execute the method
 
-		Set<MethodConstraintViolation<Object>> returnValueViolations = validator.validateReturnValue(
+		Set<MethodConstraintViolation<Object>> returnValueViolations = methodValidator.validateReturnValue(
 				pjp.getTarget(), signature.getMethod(), result
 		);
 		if ( !returnValueViolations.isEmpty() ) {
