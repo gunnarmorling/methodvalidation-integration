@@ -15,23 +15,24 @@
  */
 package de.gmorling.methodvalidation.spring;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import de.gmorling.methodvalidation.spring.domain.Movie;
-import de.gmorling.methodvalidation.spring.service.MovieRepository;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import javax.inject.Inject;
 
 import org.hibernate.validator.MethodConstraintViolation;
 import org.hibernate.validator.MethodConstraintViolationException;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import de.gmorling.methodvalidation.spring.domain.Movie;
+import de.gmorling.methodvalidation.spring.service.MovieRepository;
 
 /**
  * @author Kevin Pollet
@@ -42,9 +43,8 @@ public class SpringMethodValidationTest {
 
 	private static String nullValidationMessage;
 
-	@Autowired
+	@Inject
 	private MovieRepository movieRepository;
-
 
 	@BeforeClass
 	public static void before() {

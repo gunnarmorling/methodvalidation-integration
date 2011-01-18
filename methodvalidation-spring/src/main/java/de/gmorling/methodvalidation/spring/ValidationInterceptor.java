@@ -16,14 +16,14 @@
 package de.gmorling.methodvalidation.spring;
 
 import java.util.Set;
+
+import javax.inject.Inject;
 import javax.validation.ValidatorFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.hibernate.validator.MethodConstraintViolation;
 import org.hibernate.validator.MethodConstraintViolationException;
 import org.hibernate.validator.MethodValidator;
@@ -32,10 +32,9 @@ import org.hibernate.validator.MethodValidator;
  * @author Kevin Pollet
  */
 @Aspect
-
 public class ValidationInterceptor {
 
-	@Autowired
+	@Inject
 	private ValidatorFactory validatorFactory;
 
 	//Match any public methods in a class annotated with @AutoValidating
