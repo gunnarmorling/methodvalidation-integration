@@ -48,7 +48,15 @@ public class ValidationInterceptor {
 			throw new MethodConstraintViolationException(violations);
 		}
 
-		return ctx.proceed();
+		Object result = ctx.proceed();
+
+		violations = validator.validateReturnValue(ctx.getTarget(), ctx.getMethod(), ctx.getParameters());
+
+		if (!violations.isEmpty()) {
+			throw new MethodConstraintViolationException(violations);
+		}
+
+		return result;
 	}
 
 }
