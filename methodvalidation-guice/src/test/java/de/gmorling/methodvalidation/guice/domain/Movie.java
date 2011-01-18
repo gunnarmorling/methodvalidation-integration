@@ -17,6 +17,8 @@ package de.gmorling.methodvalidation.guice.domain;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * An exemplary model class representing a movie.
  * 
@@ -33,6 +35,7 @@ public class Movie {
 	
 	private final String director;
 	
+	@NotNull
 	private final Date releaseDate;
 
 	public Movie(long id, String title, int runTime, String director,

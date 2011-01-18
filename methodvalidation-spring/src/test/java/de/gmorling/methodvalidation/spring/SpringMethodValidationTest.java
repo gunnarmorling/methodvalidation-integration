@@ -114,8 +114,6 @@ public class SpringMethodValidationTest {
 					constraintViolation.getPropertyPath().toString()
 			);
 		}
-
 	}
-
 
 }

@@ -15,9 +15,19 @@
  */
 package de.gmorling.methodvalidation.guice;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.ResourceBundle;
 import java.util.Set;
+
 import javax.validation.ValidatorFactory;
+
+import org.hibernate.validator.MethodConstraintViolation;
+import org.hibernate.validator.MethodConstraintViolationException;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -25,17 +35,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
+
 import de.gmorling.methodvalidation.guice.domain.Movie;
 import de.gmorling.methodvalidation.guice.service.MovieRepository;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import org.hibernate.validator.MethodConstraintViolation;
-import org.hibernate.validator.MethodConstraintViolationException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class GuiceMethodValidationTest {
 
@@ -104,6 +106,30 @@ public class GuiceMethodValidationTest {
 			assertEquals("MovieRepository#findMoviesByDirector(arg0)",
 				constraintViolation.getPropertyPath().toString());
 		}
-
 	}
+	
+	@Test
+	public void methodCallFailsDueToIllegalReturnValue() {
+
+		try {
+			movieRepository.findMoviesByDirector( "John Hillcoat" );
+			fail(
+					"Expected "
+							+ MethodConstraintViolationException.class.getSimpleName()
+							+ " wasn't thrown."
+			);
+		}
+		catch ( MethodConstraintViolationException e ) {
+			Set<MethodConstraintViolation<?>> violations = e
+					.getConstraintViolations();
+			assertEquals( 1, violations.size() );
+			MethodConstraintViolation<?> constraintViolation = violations
+					.iterator().next();
+			assertEquals( notNullMessage, constraintViolation.getMessage() );
+			assertEquals(
+					"MovieRepository#findMoviesByDirector()[].releaseDate",
+					constraintViolation.getPropertyPath().toString()
+			);
+		}
+	}	
 }
