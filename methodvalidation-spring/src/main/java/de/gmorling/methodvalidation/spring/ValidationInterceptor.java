@@ -39,7 +39,7 @@ public class ValidationInterceptor {
 
 	//Match any public methods in a class annotated with @AutoValidating
 	@Around("execution(public * *(..)) && @within(de.gmorling.methodvalidation.spring.AutoValidating)")
-	public Object validateMethodParameters(ProceedingJoinPoint pjp) throws Throwable {
+	public Object validateMethodInvocation(ProceedingJoinPoint pjp) throws Throwable {
 		Object result;
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		MethodValidator methodValidator = validator.unwrap( MethodValidator.class );

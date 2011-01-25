@@ -35,7 +35,7 @@ public class ValidationInterceptor {
 	private ValidatorFactory validatorFactory;
 
 	@AroundInvoke
-	public Object manageTransaction(InvocationContext ctx) throws Exception {
+	public Object validateMethodInvocation(InvocationContext ctx) throws Exception {
 
 		MethodValidator validator = validatorFactory.getValidator().unwrap(
 			MethodValidator.class);
