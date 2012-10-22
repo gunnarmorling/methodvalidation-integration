@@ -24,9 +24,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.hibernate.validator.MethodConstraintViolation;
-import org.hibernate.validator.MethodConstraintViolationException;
-import org.hibernate.validator.MethodValidator;
+import org.hibernate.validator.method.MethodConstraintViolation;
+import org.hibernate.validator.method.MethodConstraintViolationException;
+import org.hibernate.validator.method.MethodValidator;
 
 /**
  * @author Kevin Pollet
@@ -44,7 +44,7 @@ public class ValidationInterceptor {
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		MethodValidator methodValidator = validator.unwrap( MethodValidator.class );
 
-		Set<MethodConstraintViolation<Object>> parametersViolations = methodValidator.validateParameters(
+		Set<MethodConstraintViolation<Object>> parametersViolations = methodValidator.validateAllParameters(
 				pjp.getTarget(), signature.getMethod(), pjp.getArgs()
 		);
 		if ( !parametersViolations.isEmpty() ) {

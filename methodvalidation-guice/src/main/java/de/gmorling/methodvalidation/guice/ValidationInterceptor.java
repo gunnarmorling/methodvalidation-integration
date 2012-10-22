@@ -21,9 +21,9 @@ import javax.validation.ValidatorFactory;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.hibernate.validator.MethodConstraintViolation;
-import org.hibernate.validator.MethodConstraintViolationException;
-import org.hibernate.validator.MethodValidator;
+import org.hibernate.validator.method.MethodConstraintViolation;
+import org.hibernate.validator.method.MethodConstraintViolationException;
+import org.hibernate.validator.method.MethodValidator;
 
 import com.google.inject.Inject;
 
@@ -39,7 +39,7 @@ public class ValidationInterceptor implements MethodInterceptor {
 			MethodValidator.class);
 
 		Set<MethodConstraintViolation<Object>> violations = validator
-			.validateParameters(
+			.validateAllParameters(
 				invocation.getThis(), invocation.getMethod(),
 				invocation.getArguments());
 

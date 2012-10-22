@@ -23,8 +23,8 @@ import java.util.Set;
 
 import javax.validation.ValidatorFactory;
 
-import org.hibernate.validator.MethodConstraintViolation;
-import org.hibernate.validator.MethodConstraintViolationException;
+import org.hibernate.validator.method.MethodConstraintViolation;
+import org.hibernate.validator.method.MethodConstraintViolationException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
