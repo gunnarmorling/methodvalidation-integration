@@ -23,9 +23,9 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.validation.ValidatorFactory;
 
-import org.hibernate.validator.MethodConstraintViolation;
-import org.hibernate.validator.MethodConstraintViolationException;
-import org.hibernate.validator.MethodValidator;
+import org.hibernate.validator.method.MethodConstraintViolation;
+import org.hibernate.validator.method.MethodConstraintViolationException;
+import org.hibernate.validator.method.MethodValidator;
 
 @AutoValidating
 @Interceptor
@@ -41,7 +41,7 @@ public class ValidationInterceptor {
 			MethodValidator.class);
 
 		Set<MethodConstraintViolation<Object>> violations = validator
-			.validateParameters(
+			.validateAllParameters(
 				ctx.getTarget(), ctx.getMethod(), ctx.getParameters());
 
 		if (!violations.isEmpty()) {
